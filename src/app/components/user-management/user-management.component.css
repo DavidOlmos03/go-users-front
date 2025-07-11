@@ -34,9 +34,9 @@
 
 @keyframes glow {
   from {
-    box-shadow: 0 0 5px #00ff41, 0 0 10px #00ff41, 0 0 15px #00ff41;
+    box-shadow: 0 0 5px rgba(0, 168, 255, 0.3), 0 0 10px rgba(0, 168, 255, 0.3), 0 0 15px rgba(0, 168, 255, 0.3);
   }
   to {
-    box-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 30px #00ff41;
+    box-shadow: 0 0 10px rgba(0, 168, 255, 0.3), 0 0 20px rgba(0, 168, 255, 0.3), 0 0 30px rgba(0, 168, 255, 0.3);
   }
 }

@@ -77,4 +77,13 @@
       </tbody>
     </table>
   </div>
+
+  <!-- Confirm Dialog -->
+  <app-confirm-dialog
+    [isVisible]="showConfirmDialog"
+    title="Confirmar eliminación"
+    message="¿Estás seguro de que quieres eliminar este usuario? Esta acción no se puede deshacer."
+    (confirm)="onConfirmDelete()"
+    (cancel)="onCancelDelete()"
+  ></app-confirm-dialog>
 </div>

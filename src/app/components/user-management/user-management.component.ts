@@ -1,11 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { UserService } from '../../services/user.service';
+import { AlertService } from '../../services/alert.service';
 import { User, CreateUserRequest, UpdateUserRequest } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
 import { UserTableComponent } from '../user-table/user-table.component';
 import { UserFormComponent } from '../user-form/user-form.component';
-import { MatrixBackgroundComponent } from '../matrix-background/matrix-background.component';
+import { ParticlesBackgroundComponent } from '../matrix-background/matrix-background.component';
+import { AlertWrapperComponent } from '../alert-wrapper/alert-wrapper.component';
 
 @Component({
   selector: 'app-user-management',
@@ -15,7 +17,8 @@ import { MatrixBackgroundComponent } from '../matrix-background/matrix-backgroun
     CommonModule,
     UserTableComponent,
     UserFormComponent,
-    MatrixBackgroundComponent
+    ParticlesBackgroundComponent,
+    AlertWrapperComponent
   ],
   standalone: true
 })
@@ -29,7 +32,10 @@ export class UserManagementComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private alertService: AlertService
+  ) {}
 
   ngOnInit(): void {
     this.loadUsers();
@@ -55,6 +61,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
           console.error('Error loading users:', error);
           this.errorMessage = 'Error al cargar los usuarios. Verifica que la API esté ejecutándose.';
           this.isLoading = false;
+          this.alertService.showError('Error al cargar los usuarios. Verifica que la API esté ejecutándose.');
         }
       });
   }
@@ -95,11 +102,12 @@ export class UserManagementComponent implements OnInit, OnDestroy {
         next: (newUser) => {
           console.log('Usuario creado:', newUser);
           this.hideForm();
-          this.showSuccessMessage('Usuario creado exitosamente');
+          this.alertService.showSuccess('Usuario creado exitosamente');
         },
         error: (error) => {
           console.error('Error creating user:', error);
           this.errorMessage = 'Error al crear el usuario. Verifica los datos e intenta nuevamente.';
+          this.alertService.showError('Error al crear el usuario. Verifica los datos e intenta nuevamente.');
         }
       });
   }
@@ -111,11 +119,12 @@ export class UserManagementComponent implements OnInit, OnDestroy {
         next: (updatedUser) => {
           console.log('Usuario actualizado:', updatedUser);
           this.hideForm();
-          this.showSuccessMessage('Usuario actualizado exitosamente');
+          this.alertService.showSuccess('Usuario actualizado exitosamente');
         },
         error: (error) => {
           console.error('Error updating user:', error);
           this.errorMessage = 'Error al actualizar el usuario. Verifica los datos e intenta nuevamente.';
+          this.alertService.showError('Error al actualizar el usuario. Verifica los datos e intenta nuevamente.');
         }
       });
   }
@@ -126,19 +135,19 @@ export class UserManagementComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           console.log('Usuario eliminado');
-          this.showSuccessMessage('Usuario eliminado exitosamente');
+          this.alertService.showSuccess('Usuario eliminado exitosamente');
         },
         error: (error) => {
           console.error('Error deleting user:', error);
           this.errorMessage = 'Error al eliminar el usuario. Intenta nuevamente.';
+          this.alertService.showError('Error al eliminar el usuario. Intenta nuevamente.');
         }
       });
   }
 
   private showSuccessMessage(message: string): void {
-    // Aquí podrías implementar un sistema de notificaciones
+    // Método mantenido por compatibilidad
     console.log(message);
-    // Por ahora solo recargamos los usuarios
     this.loadUsers();
   }
 

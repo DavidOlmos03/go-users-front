@@ -1,4 +1,4 @@
-.matrix-canvas {
+.particles-canvas {
   position: fixed;
   top: 0;
   left: 0;
@@ -9,6 +9,7 @@
   z-index: -1;
   opacity: 0.8;
   display: block;
-  pointer-events: none;
+  pointer-events: auto; /* Permitir interacción con el mouse */
   background: transparent;
+  cursor: none; /* Ocultar cursor sobre el canvas */
 }
