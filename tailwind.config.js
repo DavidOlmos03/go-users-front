@@ -7,7 +7,7 @@ module.exports = {
     extend: {
       colors: {
         matrix: {
-          green: '#00ff41',
+          blue: '#00a8ff',
           dark: '#0a0a0a',
           darker: '#000000',
           light: '#1a1a1a',
@@ -26,8 +26,8 @@ module.exports = {
           '100%': { transform: 'translateY(100vh)' }
         },
         'glow': {
-          '0%': { boxShadow: '0 0 5px #00ff41, 0 0 10px #00ff41, 0 0 15px #00ff41' },
-          '100%': { boxShadow: '0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 30px #00ff41' }
+          '0%': { boxShadow: '0 0 5px #00a8ff, 0 0 10px #00a8ff, 0 0 15px #00a8ff' },
+          '100%': { boxShadow: '0 0 10px #00a8ff, 0 0 20px #00a8ff, 0 0 30px #00a8ff' }
         },
         'fade-in': {
           '0%': { opacity: '0' },

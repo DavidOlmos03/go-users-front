@@ -64,7 +64,7 @@ export class MatrixBackgroundComponent implements OnInit, AfterViewInit {
       ctx.fillRect(0, 0, width, height);
 
       // Color del texto Matrix
-      ctx.fillStyle = '#00ff41';
+      ctx.fillStyle = '#00a8ff';
       ctx.font = `${fontSize}px monospace`;
 
       // Dibujar los caracteres

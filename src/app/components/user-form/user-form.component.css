@@ -5,6 +5,9 @@
 
 .modal-content {
   animation: slideUp 0.3s ease-out;
+  max-height: 95vh;
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes fadeIn {
@@ -38,10 +41,10 @@ textarea::-webkit-scrollbar-track {
 }
 
 textarea::-webkit-scrollbar-thumb {
-  background: #00ff41;
+  background: #00a8ff;
   border-radius: 3px;
 }
 
 textarea::-webkit-scrollbar-thumb:hover {
-  background: #00cc33;
+  background: #0099cc;
 }

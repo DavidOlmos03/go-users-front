@@ -15,30 +15,30 @@
 
 /* Custom Matrix Styles */
 .matrix-text {
-  color: #00ff41;
-  text-shadow: 0 0 10px #00ff41;
+  color: #00a8ff;
+  text-shadow: 0 0 10px #00a8ff;
 }
 
 .matrix-border {
-  border: 1px solid #00ff41;
-  box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+  border: 1px solid #00a8ff;
+  box-shadow: 0 0 10px rgba(0, 168, 255, 0.3);
 }
 
 .matrix-input {
   background: rgba(0, 0, 0, 0.8);
-  border: 1px solid #00ff41;
-  color: #00ff41;
+  border: 1px solid #00a8ff;
+  color: #00a8ff;
   transition: all 0.3s ease;
 }
 
 .matrix-input:focus {
   outline: none;
-  box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
-  border-color: #00ff41;
+  box-shadow: 0 0 15px rgba(0, 168, 255, 0.5);
+  border-color: #00a8ff;
 }
 
 .matrix-button {
-  background: linear-gradient(45deg, #00ff41, #00cc33);
+  background: linear-gradient(45deg, #00a8ff, #0099cc);
   border: none;
   color: #000;
   font-weight: bold;
@@ -49,7 +49,7 @@
 
 .matrix-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 255, 65, 0.4);
+  box-shadow: 0 5px 15px rgba(0, 168, 255, 0.4);
 }
 
 .matrix-button:active {
@@ -58,13 +58,13 @@
 
 .matrix-card {
   background: rgba(0, 0, 0, 0.9);
-  border: 1px solid #00ff41;
+  border: 1px solid #00a8ff;
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
 
 .matrix-card:hover {
-  box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+  box-shadow: 0 0 20px rgba(0, 168, 255, 0.3);
   transform: translateY(-5px);
 }
 
@@ -93,21 +93,21 @@
 }
 
 .matrix-table th {
-  background: rgba(0, 255, 65, 0.1);
-  color: #00ff41;
+  background: rgba(0, 168, 255, 0.1);
+  color: #00a8ff;
   padding: 12px;
   text-align: left;
-  border-bottom: 1px solid #00ff41;
+  border-bottom: 1px solid #00a8ff;
 }
 
 .matrix-table td {
   padding: 12px;
-  border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+  border-bottom: 1px solid rgba(0, 168, 255, 0.2);
   color: #ffffff;
 }
 
 .matrix-table tr:hover {
-  background: rgba(0, 255, 65, 0.05);
+  background: rgba(0, 168, 255, 0.05);
 }
 
 /* Modal Styles */
@@ -118,8 +118,8 @@
 
 .modal-content {
   background: rgba(0, 0, 0, 0.95);
-  border: 1px solid #00ff41;
-  box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+  border: 1px solid #00a8ff;
+  box-shadow: 0 0 30px rgba(0, 168, 255, 0.3);
 }
 
 /* Scrollbar Styles */
@@ -132,10 +132,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #00ff41;
+  background: #00a8ff;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00cc33;
+  background: #0099cc;
 }
