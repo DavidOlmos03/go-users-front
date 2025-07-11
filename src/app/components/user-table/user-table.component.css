@@ -1,0 +1,52 @@
+/* Additional styles for the user table component */
+.matrix-table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.matrix-table th {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+}
+
+.matrix-table td {
+  font-size: 0.875rem;
+}
+
+.matrix-table tr {
+  transition: all 0.2s ease;
+}
+
+.matrix-table tr:hover {
+  background: rgba(0, 255, 65, 0.05);
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+  .matrix-table {
+    font-size: 0.75rem;
+  }
+
+  .matrix-table th,
+  .matrix-table td {
+    padding: 8px 6px;
+  }
+}
+
+/* Animation for table rows */
+.matrix-table tbody tr {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,87 @@
+<div class="min-h-screen relative">
+  <!-- Matrix Background -->
+  <app-matrix-background></app-matrix-background>
+
+  <!-- Main Content -->
+  <div class="relative z-10 container mx-auto px-4 py-8">
+    <!-- Header -->
+    <div class="text-center mb-8 animate-fade-in">
+      <h1 class="text-4xl md:text-6xl font-bold matrix-text mb-4">
+        Sistema de Usuarios
+      </h1>
+      <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+        Gestión completa de usuarios con estilo Matrix
+      </p>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="mb-6 p-4 bg-red-900 bg-opacity-50 border border-red-500 rounded-lg animate-fade-in">
+      <div class="flex items-center">
+        <svg class="w-5 h-5 text-red-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span class="text-red-400">{{ errorMessage }}</span>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+      <div class="flex items-center space-x-4">
+        <button
+          (click)="showCreateForm()"
+          class="matrix-button px-6 py-3 rounded-lg text-lg font-medium animate-glow"
+        >
+          <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          Nuevo Usuario
+        </button>
+
+        <button
+          (click)="refreshUsers()"
+          [disabled]="isLoading"
+          class="px-4 py-3 border border-matrix-green text-matrix-green rounded-lg hover:bg-matrix-green hover:text-black transition-all duration-300 disabled:opacity-50"
+          title="Actualizar lista"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Status Indicator -->
+      <div class="flex items-center space-x-2 text-sm">
+        <div class="flex items-center space-x-2">
+          <div class="w-2 h-2 bg-matrix-green rounded-full animate-pulse"></div>
+          <span class="text-gray-400">
+            {{ isLoading ? 'Conectando...' : 'Conectado' }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Table -->
+    <app-user-table
+      [users]="users"
+      [isLoading]="isLoading"
+      (editUser)="showEditForm($event)"
+      (deleteUser)="onDeleteUser($event)"
+    ></app-user-table>
+
+    <!-- Form Modal -->
+    <app-user-form
+      *ngIf="showForm"
+      [user]="editingUser"
+      [isEditing]="isEditing"
+      (formSubmit)="onSubmit($event)"
+      (formCancel)="hideForm()"
+    ></app-user-form>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-10 text-center py-8 text-gray-500">
+    <p class="text-sm">
+      Sistema de Gestión de Usuarios - Angular + Go + MongoDB
+    </p>
+  </footer>
+</div>
