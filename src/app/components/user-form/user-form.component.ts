@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { User, CreateUserRequest, UpdateUserRequest } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, ReactiveFormsModule],
   standalone: true
 })
-export class UserFormComponent implements OnInit {
+export class UserFormComponent implements OnInit, OnChanges {
   @Input() user: User | null = null;
   @Input() isEditing: boolean = false;
   @Output() formSubmit = new EventEmitter<CreateUserRequest | UpdateUserRequest>();
@@ -23,12 +23,38 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    // Si ya tenemos datos de usuario al inicializar, cargarlos
+    if (this.user && this.isEditing) {
+      this.patchFormValues();
+    }
   }
 
-  ngOnChanges(): void {
-    if (this.user) {
-      this.userForm.patchValue(this.user);
+  ngOnChanges(changes: SimpleChanges): void {
+    // Solo actualizar si el formulario ya está inicializado
+    if (this.userForm && changes['user'] && this.user && this.isEditing) {
+      console.log('Patching form with user data:', this.user);
+      this.patchFormValues();
     }
+  }
+
+  private patchFormValues(): void {
+    if (!this.userForm || !this.user) return;
+
+    console.log('Patching form values:', {
+      name: this.user.name,
+      email: this.user.email,
+      age: this.user.age,
+      phone: this.user.phone || '',
+      address: this.user.address || ''
+    });
+
+    this.userForm.patchValue({
+      name: this.user.name,
+      email: this.user.email,
+      age: this.user.age,
+      phone: this.user.phone || '',
+      address: this.user.address || ''
+    });
   }
 
   private initForm(): void {
@@ -36,9 +62,16 @@ export class UserFormComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       age: ['', [Validators.required, Validators.min(1), Validators.max(120)]],
-      phone: ['', [Validators.required, Validators.pattern(/^[\+]?[1-9][\d]{0,15}$/)]],
-      address: ['', [Validators.required, Validators.minLength(10)]]
+      phone: ['', [Validators.pattern(/^[\+]?[1-9][\d]{0,15}$/)]], // Opcional
+      address: ['', [Validators.minLength(10)]] // Opcional
     });
+
+    // Si tenemos datos de usuario al inicializar el formulario, cargarlos
+    if (this.user && this.isEditing) {
+      setTimeout(() => {
+        this.patchFormValues();
+      }, 0);
+    }
   }
 
   onSubmit(): void {
@@ -105,6 +138,13 @@ export class UserFormComponent implements OnInit {
 
   isFieldInvalid(fieldName: string): boolean {
     const field = this.userForm.get(fieldName);
-    return !!(field?.invalid && field?.touched);
+    if (!field) return false;
+
+    // Para campos opcionales (phone, address), solo mostrar error si tienen valor pero es inválido
+    if (fieldName === 'phone' || fieldName === 'address') {
+      return !!(field.invalid && field.touched && field.value && field.value.trim() !== '');
+    }
+
+    return !!(field.invalid && field.touched);
   }
 }

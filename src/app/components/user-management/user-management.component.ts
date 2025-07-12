@@ -75,9 +75,15 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   }
 
   showEditForm(user: User): void {
+    console.log('showEditForm called with user:', user);
     this.editingUser = { ...user };
     this.isEditing = true;
     this.showForm = true;
+    console.log('Form state after showEditForm:', {
+      editingUser: this.editingUser,
+      isEditing: this.isEditing,
+      showForm: this.showForm
+    });
   }
 
   hideForm(): void {
