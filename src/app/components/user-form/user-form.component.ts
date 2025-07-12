@@ -54,11 +54,11 @@ export class UserFormComponent implements OnInit, OnChanges {
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       age: ['', [Validators.required, Validators.min(1), Validators.max(120)]],
-      phone: ['', [Validators.pattern(/^[\+]?[1-9][\d]{0,15}$/)]], // Opcional
-      address: ['', [Validators.minLength(10)]] // Opcional
+      phone: ['', [Validators.pattern(/^[\+]?[0-9\s\-\(\)]{7,20}$/)]], // More flexible phone validation
+      address: [''] // Optional - no validation
     });
 
-    // Si tenemos datos de usuario al inicializar el formulario, cargarlos
+    // If we have user data when initializing the form, load it
     if (this.user && this.isEditing) {
       setTimeout(() => {
         this.patchFormValues();
@@ -71,11 +71,21 @@ export class UserFormComponent implements OnInit, OnChanges {
       this.isLoading = true;
       const formData = this.userForm.value;
 
+      // Ensure age is a number
+      if (formData.age) {
+        formData.age = parseInt(formData.age, 10);
+      }
+
       if (this.isEditing && this.user) {
         this.formSubmit.emit(formData as UpdateUserRequest);
       } else {
         this.formSubmit.emit(formData as CreateUserRequest);
       }
+
+      // Reset loading state after a short delay
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
     } else {
       this.markFormGroupTouched();
     }
@@ -132,9 +142,14 @@ export class UserFormComponent implements OnInit, OnChanges {
     const field = this.userForm.get(fieldName);
     if (!field) return false;
 
-    // Para campos opcionales (phone, address), solo mostrar error si tienen valor pero es inválido
-    if (fieldName === 'phone' || fieldName === 'address') {
+    // For optional fields (phone, address), only show error if they have value but it's invalid
+    if (fieldName === 'phone') {
       return !!(field.invalid && field.touched && field.value && field.value.trim() !== '');
+    }
+
+    // Address field has no validation, so it's never invalid
+    if (fieldName === 'address') {
+      return false;
     }
 
     return !!(field.invalid && field.touched);

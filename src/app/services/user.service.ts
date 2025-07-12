@@ -114,6 +114,8 @@ export class UserService {
       errorMessage = 'La solicitud tardó demasiado en completarse. Verifica tu conexión.';
     } else if (error.status === 0) {
       errorMessage = 'No se puede conectar con el servidor. Verifica que la API esté ejecutándose.';
+    } else if (error.status === 400) {
+      errorMessage = 'Datos inválidos. Verifica que todos los campos requeridos estén completos.';
     } else if (error.status === 404) {
       errorMessage = 'Endpoint no encontrado.';
     } else if (error.status >= 500) {

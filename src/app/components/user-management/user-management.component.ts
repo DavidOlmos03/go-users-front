@@ -100,22 +100,33 @@ export class UserManagementComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (newUser) => {
-          this.hideForm();
-          this.alertService.showSuccess(
-            `Usuario "${userData.name}" ha sido creado exitosamente`,
-            'Usuario Creado'
-          );
-          // Recargar la lista después de crear
+          // First, show the success alert
           setTimeout(() => {
-            this.loadUsers();
-          }, 500);
+            this.alertService.showSuccess(
+              `Usuario "${userData.name}" ha sido creado exitosamente`,
+              'Usuario Creado'
+            );
+          }, 0);
+
+          // Then hide the form in the next cycle
+          setTimeout(() => {
+            this.hideForm();
+            // Reload the list after creating
+            setTimeout(() => {
+              this.loadUsers();
+            }, 500);
+          }, 100);
         },
         error: (error) => {
+          console.error('Error creating user:', error);
           this.errorMessage = 'Error al crear el usuario. Verifica los datos e intenta nuevamente.';
-          this.alertService.showError(
-            'No se pudo crear el usuario. Verifica que todos los campos requeridos estén completos y que el email no esté duplicado.',
-            'Error al Crear Usuario'
-          );
+          // Use setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError
+          setTimeout(() => {
+            this.alertService.showError(
+              'No se pudo crear el usuario. Verifica que todos los campos requeridos estén completos y que el email no esté duplicado.',
+              'Error al Crear Usuario'
+            );
+          }, 0);
         }
       });
   }
@@ -129,22 +140,32 @@ export class UserManagementComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (updatedUser) => {
-          this.hideForm();
-          this.alertService.showSuccess(
-            `Usuario "${userName}" ha sido actualizado exitosamente`,
-            'Usuario Actualizado'
-          );
-          // Recargar la lista después de actualizar
+          // First, show the success alert
           setTimeout(() => {
-            this.loadUsers();
-          }, 500);
+            this.alertService.showSuccess(
+              `Usuario "${userName}" ha sido actualizado exitosamente`,
+              'Usuario Actualizado'
+            );
+          }, 0);
+
+          // Then hide the form in the next cycle
+          setTimeout(() => {
+            this.hideForm();
+            // Reload the list after updating
+            setTimeout(() => {
+              this.loadUsers();
+            }, 500);
+          }, 100);
         },
         error: (error) => {
           this.errorMessage = 'Error al actualizar el usuario. Verifica los datos e intenta nuevamente.';
-          this.alertService.showError(
-            'No se pudo actualizar el usuario. Verifica que todos los campos requeridos estén completos y que el email no esté duplicado.',
-            'Error al Actualizar Usuario'
-          );
+          // Use setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError
+          setTimeout(() => {
+            this.alertService.showError(
+              'No se pudo actualizar el usuario. Verifica que todos los campos requeridos estén completos y que el email no esté duplicado.',
+              'Error al Actualizar Usuario'
+            );
+          }, 0);
         }
       });
   }
@@ -158,21 +179,28 @@ export class UserManagementComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.alertService.showSuccess(
-            `El usuario "${userName}" ha sido eliminado exitosamente`,
-            'Usuario Eliminado'
-          );
-          // Recargar la lista después de eliminar
+          // First, show the success alert
+          setTimeout(() => {
+            this.alertService.showSuccess(
+              `El usuario "${userName}" ha sido eliminado exitosamente`,
+              'Usuario Eliminado'
+            );
+          }, 0);
+
+          // Then reload the list in the next cycle
           setTimeout(() => {
             this.loadUsers();
-          }, 500);
+          }, 100);
         },
         error: (error) => {
           this.errorMessage = 'Error al eliminar el usuario. Intenta nuevamente.';
-          this.alertService.showError(
-            `No se pudo eliminar al usuario "${userName}". Intenta nuevamente más tarde.`,
-            'Error al Eliminar Usuario'
-          );
+          // Use setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError
+          setTimeout(() => {
+            this.alertService.showError(
+              `No se pudo eliminar al usuario "${userName}". Intenta nuevamente más tarde.`,
+              'Error al Eliminar Usuario'
+            );
+          }, 0);
         }
       });
   }
