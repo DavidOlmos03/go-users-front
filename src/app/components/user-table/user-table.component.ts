@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { User } from '../../models/user.model';
 import { AlertService } from '../../services/alert.service';
 import { CommonModule } from '@angular/common';
@@ -11,7 +11,7 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
   imports: [CommonModule, ConfirmDialogComponent],
   standalone: true
 })
-export class UserTableComponent {
+export class UserTableComponent implements OnChanges {
   @Input() users: User[] = [];
   @Input() isLoading: boolean = false;
   @Output() editUser = new EventEmitter<User>();
@@ -22,6 +22,10 @@ export class UserTableComponent {
   userToDelete: string | null = null;
 
   constructor(private alertService: AlertService) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Método implementado para OnChanges interface
+  }
 
   onEdit(user: User): void {
     this.editUser.emit(user);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, throwError, timeout } from 'rxjs';
 import { tap, catchError, map } from 'rxjs/operators';
 import { User, CreateUserRequest, UpdateUserRequest } from '../models/user.model';
 
@@ -24,6 +24,7 @@ export class UserService {
   getUsers(): Observable<User[]> {
     return this.http.get<{ users: any[] }>(this.apiUrl, { headers: this.getHeaders() })
       .pipe(
+        timeout(10000), // 10 segundos de timeout
         map(response => response.users.map(this.apiToUser)),
         tap(users => this.usersSubject.next(users)),
         catchError(this.handleError)
@@ -96,8 +97,31 @@ export class UserService {
     this.getUsers().subscribe();
   }
 
+  // Verificar conectividad del servidor
+  checkServerHealth(): Observable<boolean> {
+    return this.http.get(`${this.apiUrl}`, { headers: this.getHeaders() })
+      .pipe(
+        timeout(5000),
+        map(() => true),
+        catchError(() => throwError(() => new Error('Servidor no disponible')))
+      );
+  }
+
   private handleError(error: any): Observable<never> {
     console.error('An error occurred:', error);
-    throw error;
+
+    let errorMessage = 'Error desconocido';
+
+    if (error.name === 'TimeoutError') {
+      errorMessage = 'La solicitud tardó demasiado en completarse. Verifica tu conexión.';
+    } else if (error.status === 0) {
+      errorMessage = 'No se puede conectar con el servidor. Verifica que la API esté ejecutándose.';
+    } else if (error.status === 404) {
+      errorMessage = 'Endpoint no encontrado.';
+    } else if (error.status >= 500) {
+      errorMessage = 'Error del servidor.';
+    }
+
+    return throwError(() => new Error(errorMessage));
   }
 }
