@@ -102,7 +102,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
         next: (newUser) => {
           this.hideForm();
           this.alertService.showSuccess(
-            `Usuario "${newUser.name}" ha sido creado exitosamente`,
+            `Usuario "${userData.name}" ha sido creado exitosamente`,
             'Usuario Creado'
           );
           // Recargar la lista después de crear
@@ -121,14 +121,17 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   }
 
   private updateUser(userId: string, userData: UpdateUserRequest): void {
+    // Find the user to get their name for the success message
+    const userToUpdate = this.users.find(user => user.id === userId);
+    const userName = userToUpdate?.name || 'Usuario';
+
     this.userService.updateUser(userId, userData)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (updatedUser) => {
-          console.log('Usuario actualizado:', updatedUser);
           this.hideForm();
           this.alertService.showSuccess(
-            `Usuario "${updatedUser.name}" ha sido actualizado exitosamente`,
+            `Usuario "${userName}" ha sido actualizado exitosamente`,
             'Usuario Actualizado'
           );
           // Recargar la lista después de actualizar
