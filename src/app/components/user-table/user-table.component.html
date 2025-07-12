@@ -63,7 +63,7 @@
 
               <!-- Delete Button -->
               <button
-                (click)="onDelete(user.id!)"
+                (click)="onDelete(user)"
                 class="p-2 text-red-400 hover:text-red-300 hover:bg-red-400 hover:bg-opacity-20 rounded-lg transition-all duration-200"
                 title="Eliminar usuario"
               >
@@ -81,8 +81,8 @@
   <!-- Confirm Dialog -->
   <app-confirm-dialog
     [isVisible]="showConfirmDialog"
-    title="Confirmar eliminación"
-    message="¿Estás seguro de que quieres eliminar este usuario? Esta acción no se puede deshacer."
+    [title]="confirmDialogTitle"
+    [message]="confirmDialogMessage"
     (confirm)="onConfirmDelete()"
     (cancel)="onCancelDelete()"
   ></app-confirm-dialog>

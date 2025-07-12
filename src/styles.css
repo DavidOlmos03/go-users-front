@@ -13,6 +13,117 @@
   background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #1a1a1a 100%);
 }
 
+/* Alert Styles - Global Override */
+.alert-message {
+  position: fixed !important;
+  top: 20px !important;
+  right: 20px !important;
+  z-index: 999999 !important;
+  max-width: 400px !important;
+  min-width: 300px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+  animation: slideIn 0.3s ease-out !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  pointer-events: auto !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.alert-success {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  border-left: 4px solid #047857 !important;
+}
+
+.alert-error {
+  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+  border-left: 4px solid #b91c1c !important;
+}
+
+.alert-warning {
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+  border-left: 4px solid #b45309 !important;
+}
+
+.alert-info {
+  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+  border-left: 4px solid #1d4ed8 !important;
+}
+
+.alert-content {
+  display: flex !important;
+  align-items: flex-start !important;
+  padding: 16px !important;
+  color: white !important;
+}
+
+.alert-icon {
+  flex-shrink: 0 !important;
+  margin-right: 12px !important;
+  margin-top: 2px !important;
+}
+
+.alert-text {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.alert-title {
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  margin-bottom: 4px !important;
+  color: white !important;
+}
+
+.alert-message-text {
+  font-size: 13px !important;
+  opacity: 0.9 !important;
+  line-height: 1.4 !important;
+  color: white !important;
+}
+
+.alert-close {
+  flex-shrink: 0 !important;
+  margin-left: 12px !important;
+  padding: 4px !important;
+  border-radius: 4px !important;
+  opacity: 0.7 !important;
+  transition: opacity 0.2s !important;
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+  color: white !important;
+}
+
+.alert-close:hover {
+  opacity: 1 !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%) !important;
+    opacity: 0 !important;
+  }
+  to {
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+  }
+  to {
+    transform: translateX(100%) !important;
+    opacity: 0 !important;
+  }
+}
+
 /* Custom Matrix Styles */
 .matrix-text {
   color: #00a8ff;

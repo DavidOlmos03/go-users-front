@@ -50,19 +50,17 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   loadUsers(): void {
     this.isLoading = true;
     this.errorMessage = '';
-    this.cdr.detectChanges(); // Forzar detección de cambios
+    this.cdr.detectChanges();
 
-    // Cargar usuarios directamente
     this.userService.getUsers()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (users) => {
           this.users = users;
           this.isLoading = false;
-          this.cdr.detectChanges(); // Forzar detección de cambios
+          this.cdr.detectChanges();
         },
         error: (error) => {
-          console.error('Error loading users:', error);
           this.handleLoadError(error);
         }
       });
@@ -75,15 +73,9 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   }
 
   showEditForm(user: User): void {
-    console.log('showEditForm called with user:', user);
     this.editingUser = { ...user };
     this.isEditing = true;
     this.showForm = true;
-    console.log('Form state after showEditForm:', {
-      editingUser: this.editingUser,
-      isEditing: this.isEditing,
-      showForm: this.showForm
-    });
   }
 
   hideForm(): void {
@@ -108,15 +100,22 @@ export class UserManagementComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (newUser) => {
-          console.log('Usuario creado:', newUser);
           this.hideForm();
-          this.alertService.showSuccess('Usuario creado exitosamente');
-          this.loadUsers(); // Recargar la lista después de crear
+          this.alertService.showSuccess(
+            `Usuario "${newUser.name}" ha sido creado exitosamente`,
+            'Usuario Creado'
+          );
+          // Recargar la lista después de crear
+          setTimeout(() => {
+            this.loadUsers();
+          }, 500);
         },
         error: (error) => {
-          console.error('Error creating user:', error);
           this.errorMessage = 'Error al crear el usuario. Verifica los datos e intenta nuevamente.';
-          this.alertService.showError('Error al crear el usuario. Verifica los datos e intenta nuevamente.');
+          this.alertService.showError(
+            'No se pudo crear el usuario. Verifica que todos los campos requeridos estén completos y que el email no esté duplicado.',
+            'Error al Crear Usuario'
+          );
         }
       });
   }
@@ -128,30 +127,49 @@ export class UserManagementComponent implements OnInit, OnDestroy {
         next: (updatedUser) => {
           console.log('Usuario actualizado:', updatedUser);
           this.hideForm();
-          this.alertService.showSuccess('Usuario actualizado exitosamente');
-          this.loadUsers(); // Recargar la lista después de actualizar
+          this.alertService.showSuccess(
+            `Usuario "${updatedUser.name}" ha sido actualizado exitosamente`,
+            'Usuario Actualizado'
+          );
+          // Recargar la lista después de actualizar
+          setTimeout(() => {
+            this.loadUsers();
+          }, 500);
         },
         error: (error) => {
-          console.error('Error updating user:', error);
           this.errorMessage = 'Error al actualizar el usuario. Verifica los datos e intenta nuevamente.';
-          this.alertService.showError('Error al actualizar el usuario. Verifica los datos e intenta nuevamente.');
+          this.alertService.showError(
+            'No se pudo actualizar el usuario. Verifica que todos los campos requeridos estén completos y que el email no esté duplicado.',
+            'Error al Actualizar Usuario'
+          );
         }
       });
   }
 
   onDeleteUser(userId: string): void {
+    // Find the user to get their name for the success message
+    const userToDelete = this.users.find(user => user.id === userId);
+    const userName = userToDelete?.name || 'Usuario';
+
     this.userService.deleteUser(userId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          console.log('Usuario eliminado');
-          this.alertService.showSuccess('Usuario eliminado exitosamente');
-          this.loadUsers(); // Recargar la lista después de eliminar
+          this.alertService.showSuccess(
+            `El usuario "${userName}" ha sido eliminado exitosamente`,
+            'Usuario Eliminado'
+          );
+          // Recargar la lista después de eliminar
+          setTimeout(() => {
+            this.loadUsers();
+          }, 500);
         },
         error: (error) => {
-          console.error('Error deleting user:', error);
           this.errorMessage = 'Error al eliminar el usuario. Intenta nuevamente.';
-          this.alertService.showError('Error al eliminar el usuario. Intenta nuevamente.');
+          this.alertService.showError(
+            `No se pudo eliminar al usuario "${userName}". Intenta nuevamente más tarde.`,
+            'Error al Eliminar Usuario'
+          );
         }
       });
   }
@@ -173,14 +191,10 @@ export class UserManagementComponent implements OnInit, OnDestroy {
 
     this.errorMessage = errorMessage;
     this.isLoading = false;
-    this.alertService.showError(errorMessage);
-  }
-
-  private showSuccessMessage(message: string): void {
-    // Aquí podrías implementar un sistema de notificaciones
-    console.log(message);
-    // Por ahora solo recargamos los usuarios
-    this.loadUsers();
+    this.alertService.showError(
+      errorMessage,
+      'Error al Cargar Usuarios'
+    );
   }
 
   refreshUsers(): void {

@@ -19,7 +19,9 @@ export class UserTableComponent implements OnChanges {
 
   displayedColumns: string[] = ['name', 'email', 'age', 'phone', 'address', 'actions'];
   showConfirmDialog = false;
-  userToDelete: string | null = null;
+  userToDelete: User | null = null;
+  confirmDialogTitle = '';
+  confirmDialogMessage = '';
 
   constructor(private alertService: AlertService) {}
 
@@ -31,14 +33,16 @@ export class UserTableComponent implements OnChanges {
     this.editUser.emit(user);
   }
 
-  onDelete(userId: string): void {
-    this.userToDelete = userId;
+  onDelete(user: User): void {
+    this.userToDelete = user;
+    this.confirmDialogTitle = 'Eliminar Usuario';
+    this.confirmDialogMessage = `¿Estás seguro de que deseas eliminar al usuario "${user.name}"? Esta acción no se puede deshacer.`;
     this.showConfirmDialog = true;
   }
 
   onConfirmDelete(): void {
     if (this.userToDelete) {
-      this.deleteUser.emit(this.userToDelete);
+      this.deleteUser.emit(this.userToDelete.id!);
       this.hideConfirmDialog();
     }
   }
@@ -50,6 +54,8 @@ export class UserTableComponent implements OnChanges {
   private hideConfirmDialog(): void {
     this.showConfirmDialog = false;
     this.userToDelete = null;
+    this.confirmDialogTitle = '';
+    this.confirmDialogMessage = '';
   }
 
   getAddressPreview(address: string): string {

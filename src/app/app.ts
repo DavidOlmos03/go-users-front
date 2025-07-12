@@ -19,5 +19,5 @@ import { UserTableComponent } from './components/user-table/user-table.component
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = 'Sistema de Usuarios Matrix';
+
 }

@@ -108,8 +108,6 @@ export class UserService {
   }
 
   private handleError(error: any): Observable<never> {
-    console.error('An error occurred:', error);
-
     let errorMessage = 'Error desconocido';
 
     if (error.name === 'TimeoutError') {

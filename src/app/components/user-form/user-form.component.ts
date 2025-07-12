@@ -32,21 +32,13 @@ export class UserFormComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     // Solo actualizar si el formulario ya está inicializado
     if (this.userForm && changes['user'] && this.user && this.isEditing) {
-      console.log('Patching form with user data:', this.user);
+      // console.log('Patching form with user data:', this.user);
       this.patchFormValues();
     }
   }
 
   private patchFormValues(): void {
     if (!this.userForm || !this.user) return;
-
-    console.log('Patching form values:', {
-      name: this.user.name,
-      email: this.user.email,
-      age: this.user.age,
-      phone: this.user.phone || '',
-      address: this.user.address || ''
-    });
 
     this.userForm.patchValue({
       name: this.user.name,
